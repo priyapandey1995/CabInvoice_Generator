@@ -1,47 +1,56 @@
 package com.bridgelabz;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Generating the invoice of a cab with given respective time and km
+ * a class for invoice generator is created with the given data set like distance and time
  */
 public class InvoiceGenerator {
     private static final int MINIMUM_COST_PER_KILOMETER = 10;
     private static final int COST_PER_TIME = 1;
     private static final int MIN_FARE = 5;
-
-
+    public Map<String, List<Ride>> userRideRepository = new HashMap<>();
 
     /**
-     * Creating ToCalculateFare to calculate the fare for the given distance and time
-     * @param distance - double distance
-     * @param time - int time
-     * @return total fare
+     * Method is created to calculate the fare with parameter such as distance and time
+     * @param distance
+     * @param time
+     * @return totalfare
      */
-    public static double calculateFare(double distance, int time) {
-        double totalFare =  distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;//UC1
-        return Math.max(totalFare,MIN_FARE);
+    public double calculateFare(double distance, int time) {
+        double totalFare = distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;
+        return Math.max(totalFare, MIN_FARE);//UC1
     }
 
     /**
-     * calculate the fare for multiple rides
+     * next is to calculate the total fare for multiple rides
      * @param rides
-     * @return
+     * @return totalfares
      */
-
-    public InvoiceSummary CalculateFare(Ride[] rides) {
+    public InvoiceSummary calculateFare(Ride[] rides) {
         double totalFare = 0;
         for (Ride ride : rides) {
-
-            totalFare += this.calculateFare(ride.getDistance(),ride.getTime());
+            totalFare += this.calculateFare(ride.getDistance(), ride.getTime());
         }
-        return new InvoiceSummary(rides.length,totalFare);
+        return new InvoiceSummary(rides.length, totalFare);//UC2
     }
 
     /**
-     * Main method to print Welcome message
-     * @param args
+     * method is created to return the invoice summary for multilpe rides
+     * @param userId
+     * @return invoice summary
      */
+    public InvoiceSummary calculateFare(String userId) {
+        List<Ride> rides = this.userRideRepository.get(userId);
+        double totalFare = 0;
+        for (Ride ride : rides) {
+            totalFare += this.calculateFare(ride.getDistance(), ride.getTime());
+        }
+        return new InvoiceSummary(rides.size(), totalFare);//UC4
+    }
     public static void main(String[] args) {
-       // System.out.println("The total fare is:");
-        //System.out.println(calculateFare(2.0, 5));
+        System.out.println("Welcome to CabInvoiceGenerator Application!");
     }
 }
