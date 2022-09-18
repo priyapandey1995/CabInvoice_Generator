@@ -13,15 +13,31 @@ public class InvoiceGenerator {
      * @param time - int time
      * @return total fare
      */
-    public static double toCalculateFare(double distance, int time) {
-        return distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;
+    public static double calculateFare(double distance, int time) {
+        return distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;//UC1
     }
+
+    /**
+     * calculate the fare for multiple rides
+     * @param rides
+     * @return
+     */
+
+    public double calculateFare(Ride[] rides) {
+        double totalFare = 0;
+        for (Ride ride : rides) {
+
+            totalFare += this.calculateFare(ride.getDistance(),ride.getTime());
+        }
+        return totalFare;
+    }
+
     /**
      * Main method to print Welcome message
      * @param args
      */
     public static void main(String[] args) {
         System.out.println("The total fare is:");
-        System.out.println(toCalculateFare(2.0, 5));
+        System.out.println(calculateFare(2.0, 5));
     }
 }
